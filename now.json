@@ -2,7 +2,7 @@
   "version": 2,
   "build": {
     "env": {
-      "MONGO_API_KEY": "@mongouri"
+      "MONGO_API_KEY": "mongodb+srv://WhiteTower:Shnozoisgolf1@cluster0-kibwm.mongodb.net/test?retryWrites=true&w=majority"
     }
   },
   "builds": [
