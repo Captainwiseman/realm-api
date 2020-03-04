@@ -1,7 +1,8 @@
+// import { mongoUri } from "../../_secrets";
 import moment from "moment";
 
 import { MongoClient } from "mongodb";
-const uri = process.env.MONGO_API_KEY;
+const uri = "mongodb+srv://WhiteTower:Shnozoisgolf1@cluster0-kibwm.mongodb.net/test?retryWrites=true&w=majority";
 
 const DATABASE_NAME = "World";
 
