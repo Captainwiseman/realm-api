@@ -10,10 +10,10 @@
   "author": "LJHW",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
     "esm": "^3.2.25",
     "inquirer": "^7.0.4",
     "lodash": "^4.17.15",
+    "micro-cors": "^0.1.1",
     "moment": "^2.24.0",
     "mongodb": "^3.5.3",
     "node-fetch": "^2.6.0",
