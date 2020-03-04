@@ -1,9 +1,5 @@
-const {getWorldData} = require("../serv/server-functions")
-
-// const data = [
-//   {id: 1}, {id: 2}, {id:3}
-// ]
+import {getWorldData} from "../serv/server-functions";
 
 module.exports = (req, res) => {
-    res.send(getWorldData());
+  res.send(getWorldData());
 };
