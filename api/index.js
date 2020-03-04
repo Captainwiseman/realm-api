@@ -2,7 +2,7 @@ import { getWorldData } from "../serv/http-functions";
 import Cors from "micro-cors";
 
 const cors = Cors({
-  origin: "http://localhost:3000"
+  origin: "*"
 });
 
 const mainEndPointHandler = async (req, res) => {
