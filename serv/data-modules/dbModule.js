@@ -1,4 +1,3 @@
-import log from "../../common/logger";
 import { mongoUri } from "../../_secrets";
 import moment from "moment";
 
@@ -28,9 +27,8 @@ async function terminateConnection(client) {
 async function createHistoryEventInDb(historyEvent) {
   const client = await connectToDb();
 
-  log(
-    `Connecting to ${DATABASE_NAME} Database, adding an History Event to ${HISTORY_COLLECTION_NAME} Collection`,
-    "database"
+  console.log(
+    `Connecting to ${DATABASE_NAME} Database, adding an History Event to ${HISTORY_COLLECTION_NAME} Collection`
   );
   try {
     const results = await client
@@ -40,7 +38,7 @@ async function createHistoryEventInDb(historyEvent) {
 
     return results.ops;
   } catch (e) {
-    log(e, "database");
+    console.log(e);
   } finally {
     await terminateConnection(client);
   }
@@ -49,7 +47,7 @@ async function createHistoryEventInDb(historyEvent) {
 async function readAllHistoryDataFromDB() {
   const client = await connectToDb();
 
-  log(
+  console.log(
     `Connecting to ${DATABASE_NAME} Database, looking for all records in ${HISTORY_COLLECTION_NAME} Collection`,
     "database"
   );
@@ -62,48 +60,7 @@ async function readAllHistoryDataFromDB() {
       .toArray();
     return results;
   } catch (e) {
-    log(e, "database");
-  } finally {
-    await terminateConnection(client);
-  }
-}
-
-async function deleteHistoryDataInDB() {
-  const client = await connectToDb();
-
-  log(
-    `Connecting to ${DATABASE_NAME} Database, REMOVING all records in ${HISTORY_COLLECTION_NAME} Collection`,
-    "database"
-  );
-  try {
-    const results = await client
-      .db(DATABASE_NAME)
-      .collection(HISTORY_COLLECTION_NAME)
-      .deleteMany({});
-    return results;
-  } catch (e) {
-    log(e, "database");
-  } finally {
-    await terminateConnection(client);
-  }
-}
-
-async function createRealmsDataInDB(realms) {
-  const client = await connectToDb();
-
-  log(
-    `Connecting to ${DATABASE_NAME} Database, creating realms in ${REALMS_COLLECTION_NAME} Collection`,
-    "database"
-  );
-  try {
-    const results = await client
-      .db(DATABASE_NAME)
-      .collection(REALMS_COLLECTION_NAME)
-      .insertMany(realms);
-
-    return results.ops;
-  } catch (e) {
-    log(e, "database");
+    console.log(e, "database");
   } finally {
     await terminateConnection(client);
   }
@@ -112,7 +69,7 @@ async function createRealmsDataInDB(realms) {
 async function readAllRealmsDataFromDB() {
   const client = await connectToDb();
 
-  log(
+  console.log(
     `Connecting to ${DATABASE_NAME} Database, looking for all records in ${REALMS_COLLECTION_NAME} Collection`,
     "database"
   );
@@ -134,7 +91,7 @@ async function readAllRealmsDataFromDB() {
 async function updateRealmDataInDB(realm) {
   const client = await connectToDb();
 
-  log(
+  console.log(
     `Connecting to ${DATABASE_NAME} Database, updatings all records in ${REALMS_COLLECTION_NAME} Collection`,
     "database"
   );
@@ -152,50 +109,9 @@ async function updateRealmDataInDB(realm) {
       );
     return updatedRealm;
   } catch (e) {
-    log(e, "database");
+    console.log(e, "database");
   } finally {
-    log("Ended", database);
-    await terminateConnection(client);
-  }
-}
-
-async function deleteRealmsDataInDB() {
-  const client = await connectToDb();
-
-  log(
-    `Connecting to ${DATABASE_NAME} Database, REMOVING all records in ${REALMS_COLLECTION_NAME} Collection`,
-    "database"
-  );
-  try {
-    const results = await client
-      .db(DATABASE_NAME)
-      .collection(REALMS_COLLECTION_NAME)
-      .deleteMany({});
-    return results;
-  } catch (e) {
-    log(e, "database");
-  } finally {
-    await terminateConnection(client);
-  }
-}
-
-async function createLandsDataInDB(lands) {
-  const client = await connectToDb();
-
-  log(
-    `Connecting to ${DATABASE_NAME} Database, creating lands in ${LANDS_COLLECTION_NAME} Collection.`,
-    "database"
-  );
-  try {
-    const results = await client
-      .db(DATABASE_NAME)
-      .collection(LANDS_COLLECTION_NAME)
-      .insertMany(lands);
-
-    return results.ops;
-  } catch (e) {
-    log(e, "database");
-  } finally {
+    console.log("Ended", database);
     await terminateConnection(client);
   }
 }
@@ -203,7 +119,8 @@ async function createLandsDataInDB(lands) {
 async function readAllLandsDataFromDB() {
   const client = await connectToDb();
 
-  log(`Connecting to ${DATABASE_NAME} Database, looking for all records in ${LANDS_COLLECTION_NAME} Collection.`,
+  console.log(
+    `Connecting to ${DATABASE_NAME} Database, looking for all records in ${LANDS_COLLECTION_NAME} Collection.`,
     "database"
   );
 
@@ -215,7 +132,7 @@ async function readAllLandsDataFromDB() {
       .toArray();
     return results;
   } catch (e) {
-    log(e, "database");
+    console.log(e, "database");
   } finally {
     await terminateConnection(client);
   }
@@ -224,7 +141,7 @@ async function readAllLandsDataFromDB() {
 async function updateLandDataInDB(land) {
   const client = await connectToDb();
 
-  log(
+  console.log(
     `Connecting to ${DATABASE_NAME} Database, updatings all records in ${LANDS_COLLECTION_NAME} Collection.`,
     "database"
   );
@@ -242,29 +159,9 @@ async function updateLandDataInDB(land) {
       );
     return updatedRealm;
   } catch (e) {
-    log(e, "database");
+    console.log(e, "database");
   } finally {
-    log("ended", "database");
-    await terminateConnection(client);
-  }
-}
-
-async function deleteLandsDataInDB() {
-  const client = await connectToDb();
-
-  log(
-    `Connecting to ${DATABASE_NAME} Database, REMOVING all records in ${LANDS_COLLECTION_NAME} Collection.`,
-    "database"
-  );
-  try {
-    const results = await client
-      .db(DATABASE_NAME)
-      .collection(LANDS_COLLECTION_NAME)
-      .deleteMany({});
-    return results;
-  } catch (e) {
-    log(e, "database");
-  } finally {
+    console.log("ended", "database");
     await terminateConnection(client);
   }
 }
@@ -272,13 +169,8 @@ async function deleteLandsDataInDB() {
 export default {
   createHistoryEventInDb,
   readAllHistoryDataFromDB,
-  deleteHistoryDataInDB,
-  createRealmsDataInDB,
   readAllRealmsDataFromDB,
   updateRealmDataInDB,
-  deleteRealmsDataInDB,
-  createLandsDataInDB,
   readAllLandsDataFromDB,
   updateLandDataInDB,
-  deleteLandsDataInDB
 };

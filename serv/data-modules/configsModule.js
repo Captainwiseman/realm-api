@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const moment = require("moment");
-const log = require("../../common/logger");
 
 const filesPaths = {
   _default: path.join(__dirname, "../cfg"),
