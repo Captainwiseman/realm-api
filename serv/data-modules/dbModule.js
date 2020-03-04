@@ -1,8 +1,7 @@
-import { mongoUri } from "../../_secrets";
 import moment from "moment";
 
 import { MongoClient } from "mongodb";
-const uri = mongoUri;
+const uri = process.env.MONGO_API_KEY;
 
 const DATABASE_NAME = "World";
 
