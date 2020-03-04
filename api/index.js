@@ -1,5 +1,6 @@
-import {getWorldData} from "../serv/http-functions";
+import { getWorldData } from "../serv/http-functions";
 
-module.exports = (req, res) => {
-  res.send(getWorldData());
+module.exports = async (req, res) => {
+  const world = await getWorldData();
+  res.send(world);
 };
