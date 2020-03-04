@@ -1,23 +1,5 @@
 {
   "version": 2,
-  "headers": [
-    {
-      "key": "Access-Control-Allow-Origin",
-      "value": "http://localhost:3000"
-    },
-    {
-      "key": "Access-Control-Allow-Credentials",
-      "value": "true"
-    },
-    {
-      "key": "Access-Control-Allow-Headers",
-      "value": "X-Requested-With, Access-Control-Allow-Origin, X-HTTP-Method-Override, Content-Type, Cache-Control, Authorization, Accept"
-    },
-    {
-      "key": "Access-Control-Max-Age",
-      "value": "86400"
-    }
-  ],
   "builds": [
     {
       "src": "/api/*.js",
@@ -27,7 +9,12 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "dest": "/api/$1",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, HEAD",
+        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+      }
     }
   ]
 }
