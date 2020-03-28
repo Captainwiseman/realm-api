@@ -2,13 +2,11 @@
 import moment from "moment";
 
 import { MongoClient } from "mongodb";
-const uri = "mongodb+srv://WhiteTower:Shnozoisgolf1@cluster0-kibwm.mongodb.net/test?retryWrites=true&w=majority";
+const uri =
+  "mongodb+srv://CaptainWiseman:Shnozoisgolf@dodo-exchange-board-xhoo3.mongodb.net/test?retryWrites=true&w=majority";
 
-const DATABASE_NAME = "World";
-
-const HISTORY_COLLECTION_NAME = "History";
-const REALMS_COLLECTION_NAME = "Realms";
-const LANDS_COLLECTION_NAME = "Lands";
+const DATABASE_NAME = "DoDoXChange";
+const LISTINGS_COLLECTION_NAME = "Listings";
 
 async function connectToDb() {
   const client = new MongoClient(uri, {
@@ -24,17 +22,17 @@ async function terminateConnection(client) {
   return client.close();
 }
 
-async function createHistoryEventInDb(historyEvent) {
+async function createNewListingInCollection(listing) {
   const client = await connectToDb();
 
   console.log(
-    `Connecting to ${DATABASE_NAME} Database, adding an History Event to ${HISTORY_COLLECTION_NAME} Collection`
+    `Connecting to ${DATABASE_NAME} Database, adding a listing to ${LISTINGS_COLLECTION_NAME} Collection`
   );
   try {
     const results = await client
       .db(DATABASE_NAME)
-      .collection(HISTORY_COLLECTION_NAME)
-      .insertOne(historyEvent);
+      .collection(LISTINGS_COLLECTION_NAME)
+      .insertOne(listing);
 
     return results.ops;
   } catch (e) {
@@ -44,18 +42,18 @@ async function createHistoryEventInDb(historyEvent) {
   }
 }
 
-async function readAllHistoryDataFromDB() {
+async function readAllListingsInCollection() {
   const client = await connectToDb();
 
   console.log(
-    `Connecting to ${DATABASE_NAME} Database, looking for all records in ${HISTORY_COLLECTION_NAME} Collection`,
+    `Connecting to ${DATABASE_NAME} Database, requesting listings in ${LISTINGS_COLLECTION_NAME} Collection`,
     "database"
   );
 
   try {
     const results = await client
       .db(DATABASE_NAME)
-      .collection(HISTORY_COLLECTION_NAME)
+      .collection(LISTINGS_COLLECTION_NAME)
       .find({})
       .toArray();
     return results;
@@ -66,48 +64,26 @@ async function readAllHistoryDataFromDB() {
   }
 }
 
-async function readAllRealmsDataFromDB() {
+async function updateListingInCollection(listing) {
   const client = await connectToDb();
 
   console.log(
-    `Connecting to ${DATABASE_NAME} Database, looking for all records in ${REALMS_COLLECTION_NAME} Collection`,
-    "database"
-  );
-
-  try {
-    const results = await client
-      .db(DATABASE_NAME)
-      .collection(REALMS_COLLECTION_NAME)
-      .find({})
-      .toArray();
-    return results;
-  } catch (e) {
-    log(e, "database");
-  } finally {
-    await terminateConnection(client);
-  }
-}
-
-async function updateRealmDataInDB(realm) {
-  const client = await connectToDb();
-
-  console.log(
-    `Connecting to ${DATABASE_NAME} Database, updatings all records in ${REALMS_COLLECTION_NAME} Collection`,
+    `Connecting to ${DATABASE_NAME} Database, updatings all records in ${LISTINGS_COLLECTION_NAME} Collection`,
     "database"
   );
   try {
-    const updatedRealm = await client
+    const updatedListing = await client
       .db(DATABASE_NAME)
-      .collection(REALMS_COLLECTION_NAME)
+      .collection(LISTINGS_COLLECTION_NAME)
       .updateOne(
-        { _id: realm._id },
+        { _id: listing._id },
         {
           $set: {
             _lastUpdated: moment().format()
           }
         }
       );
-    return updatedRealm;
+    return updatedListing;
   } catch (e) {
     console.log(e, "database");
   } finally {
@@ -116,61 +92,29 @@ async function updateRealmDataInDB(realm) {
   }
 }
 
-async function readAllLandsDataFromDB() {
+async function deleteListingInCollection(listing) {
   const client = await connectToDb();
 
-  console.log(
-    `Connecting to ${DATABASE_NAME} Database, looking for all records in ${LANDS_COLLECTION_NAME} Collection.`,
+  log(
+    `Connecting to ${DATABASE_NAME} Database, removing listing in ${LISTINGS_COLLECTION_NAME} Collection.`,
     "database"
   );
-
   try {
     const results = await client
       .db(DATABASE_NAME)
       .collection(LANDS_COLLECTION_NAME)
-      .find({})
-      .toArray();
+      .deleteOne({ _id: listing._id });
     return results;
   } catch (e) {
-    console.log(e, "database");
+    log(e, "database");
   } finally {
-    await terminateConnection(client);
-  }
-}
-
-async function updateLandDataInDB(land) {
-  const client = await connectToDb();
-
-  console.log(
-    `Connecting to ${DATABASE_NAME} Database, updatings all records in ${LANDS_COLLECTION_NAME} Collection.`,
-    "database"
-  );
-  try {
-    const updatedland = await client
-      .db(DATABASE_NAME)
-      .collection(REALMS_COLLECTION_NAME)
-      .updateOne(
-        { _id: land._id },
-        {
-          $set: {
-            _lastUpdated: moment().format()
-          }
-        }
-      );
-    return updatedRealm;
-  } catch (e) {
-    console.log(e, "database");
-  } finally {
-    console.log("ended", "database");
     await terminateConnection(client);
   }
 }
 
 export default {
-  createHistoryEventInDb,
-  readAllHistoryDataFromDB,
-  readAllRealmsDataFromDB,
-  updateRealmDataInDB,
-  readAllLandsDataFromDB,
-  updateLandDataInDB,
+  createNewListingInCollection,
+  readAllListingsInCollection,
+  updateListingInCollection,
+  deleteListingInCollection
 };
